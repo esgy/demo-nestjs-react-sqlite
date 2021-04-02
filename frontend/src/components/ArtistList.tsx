@@ -6,9 +6,14 @@ type Props = {
 };
 
 export function ArtistList({ artists, onSelectArtist }: Props) {
+  // default state is null, but we can also get 0 items
+  if (artists?.length === undefined) {
+    return null;
+  }
+
   return (
     <ul className="list-group">
-      {artists && artists.length > 0 ? (
+      {artists.length > 0 ? (
         <>
           <h5>Search results</h5>
           {artists.map((artist: any) => {

@@ -21,8 +21,8 @@ For E2E tests:
 ## TODO
 
 - [x] API: separate Album/Artist into modules
-- [ ] API: review tests
-- [ ] Frontend: Add more Cypress Tests
-- [ ] Frontend: Add React Router to separate views
+- [ ] API: add more tests
+- [ ] Frontend: Add more e2e Cypress Tests
+- [ ] Frontend: Add React Router to separate views & user Route params to fetch search term
 - [ ] Frontend: Artist Details in Modal
 - [ ] API&Frontend: Add CRUD functionality: Add/Edit/Delete Artist/Album
