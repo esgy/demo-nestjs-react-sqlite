@@ -1,9 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { Artist } from "../types/Artist";
 import { ArtistList } from "./ArtistList";
 
-test("ArtistList", () => {
+test("ArtistList renders items", () => {
   const artists: Artist[] = [
     {
       id: 1,
@@ -21,4 +21,44 @@ test("ArtistList", () => {
   const artistsButton = screen.getByRole("button");
   expect(artistsButton).toBeInTheDocument();
   expect(artistsButton).toContainHTML("Metallica");
+});
+
+test("ArtistList click list item", async () => {
+  const artists: Artist[] = [
+    {
+      id: 1,
+      name: "Metallica",
+      albums: [],
+    },
+  ];
+  const onSelectArtist = jest.fn();
+
+  render(<ArtistList artists={artists} onSelectArtist={onSelectArtist} />);
+
+  const artistsButton = screen.getByRole("button");
+  expect(artistsButton).toBeInTheDocument();
+  expect(artistsButton).toContainHTML("Metallica");
+
+  const form = await screen.findByRole("button");
+  fireEvent.click(form);
+  expect(onSelectArtist).toHaveBeenCalled();
+});
+
+test("ArtistList renders No results found on empty list", () => {
+  const artists: Artist[] = [];
+
+  render(<ArtistList artists={artists} onSelectArtist={() => {}} />);
+
+  const artistsList = screen.getByRole("list");
+  expect(artistsList).toContainHTML("No results found");
+});
+
+test("ArtistList don't render on null list", () => {
+  const artists = null;
+
+  render(<ArtistList artists={artists} onSelectArtist={() => {}} />);
+
+  // must use query* when testing for missing elements
+  const artistsHeading = screen.queryByText("Search results");
+  expect(artistsHeading).toBeNull();
 });
