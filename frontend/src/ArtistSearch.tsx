@@ -39,11 +39,21 @@ export function ArtistSearch() {
 
     setState(initialState);
 
-    const searchTerm = inputEl.current?.value;
+    // Encode search term
+    const searchTerm = encodeURIComponent(inputEl.current?.value || "");
     if (!searchTerm) return;
 
-    const searchResult: Artist[] = await api(`/artists/search/${searchTerm}`);
-    setState({ searchResult, loading: false });
+    const searchResult = await api(`/artists/search/${searchTerm}`);
+
+    if (searchResult.error) {
+      setState({
+        searchResult: null,
+        loading: false,
+        error: searchResult,
+      });
+    } else {
+      setState({ searchResult, loading: false, error: null });
+    }
   }
 
   async function onSelectArtist(id: string) {
@@ -73,10 +83,19 @@ export function ArtistSearch() {
         </div>
       </form>
 
-      {state.artist ? null : (
+      {state.error ? (
+        <div className="bg-danger text-white p-3">{state.error.message}</div>
+      ) : null}
+
+      {state.artist ? (
+        <ArtistContainer
+          artist={state.artist}
+          onClose={() => setState({ artist: null })}
+        />
+      ) : (
         <ul className="list-group">
           {state.searchResult && <h5>Search results</h5>}
-          {state.searchResult &&
+          {state.searchResult && state.searchResult.length > 0 ? (
             state.searchResult.map((artist: any) => {
               return (
                 <button
@@ -87,14 +106,12 @@ export function ArtistSearch() {
                   {artist.name}
                 </button>
               );
-            })}
+            })
+          ) : (
+            <div>No results found.</div>
+          )}
         </ul>
       )}
-
-      <ArtistContainer
-        artist={state.artist}
-        onClose={() => setState({ artist: null })}
-      />
     </div>
   );
 }

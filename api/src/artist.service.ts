@@ -22,6 +22,7 @@ export class ArtistService {
   }
 
   async searchArtistByName(searchTerm: string): Promise<Artist[] | undefined> {
+    // Using Like() helper from Typeorm to take care of lowercasing
     return this.repo.find({
       where: {
         name: Like(`%${searchTerm}%`),
