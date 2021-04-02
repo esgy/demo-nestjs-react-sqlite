@@ -13,6 +13,7 @@ export function ArtistSearch() {
 
   const initialState = {
     searchResult: null as Artist[] | null,
+    artist: null as Artist | null,
     loading: false,
     error: null,
   };
@@ -36,8 +37,14 @@ export function ArtistSearch() {
     setState({ searchResult, loading: false });
   }
 
-  function onSelectArtist(artist: Artist) {
-    console.log(artist);
+  async function onSelectArtist(id: string) {
+    setState({ artist: null, loading: true });
+    const artist: Artist = await api(`/artist/${id}`);
+    setState({ artist, loading: false });
+  }
+
+  function onClearArtist() {
+    setState({ artist: null });
   }
 
   return (
@@ -61,21 +68,48 @@ export function ArtistSearch() {
         </div>
       </form>
 
-      <ul className="list-group">
-        {state.searchResult && <h5>Search results</h5>}
-        {state.searchResult &&
-          state.searchResult.map((artist: any) => {
-            return (
-              <button
-                key={artist.id}
-                className="list-group-item list-group-item-action"
-                onClick={() => onSelectArtist(artist.id)}
-              >
-                {artist.name}
-              </button>
-            );
-          })}
-      </ul>
+      {state.artist ? null : (
+        <ul className="list-group">
+          {state.searchResult && <h5>Search results</h5>}
+          {state.searchResult &&
+            state.searchResult.map((artist: any) => {
+              return (
+                <button
+                  key={artist.id}
+                  className="list-group-item list-group-item-action"
+                  onClick={() => onSelectArtist(artist.id)}
+                >
+                  {artist.name}
+                </button>
+              );
+            })}
+        </ul>
+      )}
+
+      {state.artist ? (
+        <>
+          <div className="d-flex mt-4 mb-2 justify-content-between align-items-end">
+            <h4>{state.artist.name} Albums</h4>
+            <button onClick={onClearArtist} className="btn btn-danger">
+              Close
+            </button>
+          </div>
+
+          <ul className="list-group">
+            {state.artist.albums && state.artist.albums.length > 0 ? (
+              state.artist.albums.map((album: any) => {
+                return (
+                  <li key={album.id} className="list-group-item">
+                    {album.title}
+                  </li>
+                );
+              })
+            ) : (
+              <div className="text-danger">No albums found.</div>
+            )}
+          </ul>
+        </>
+      ) : null}
     </div>
   );
 }
