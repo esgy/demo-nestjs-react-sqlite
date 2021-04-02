@@ -23,17 +23,30 @@ describe("ArtistService", () => {
     repo.findOne = jest.fn().mockImplementation((id: number) =>
       Promise.resolve({
         id,
-        name: "Foo",
-        albums: [],
+        name: "Foo Fighters",
+        albums: [
+          {
+            id: 1,
+            title: "Foo Fighters",
+          },
+        ],
       })
     );
     const result = await service.getById(99);
 
-    expect(repo.findOne).toBeCalledWith(99);
+    const query = {
+      relations: ["albums"],
+    };
+    expect(repo.findOne).toBeCalledWith(99, query);
     expect(result).toEqual({
       id: 99,
-      name: "Foo",
-      albums: [],
+      name: "Foo Fighters",
+      albums: [
+        {
+          id: 1,
+          title: "Foo Fighters",
+        },
+      ],
     });
   });
 
