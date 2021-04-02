@@ -6,7 +6,7 @@ import { getFromAPI } from "./helpers/getFromAPI";
 import { Artist } from "./types/Artist";
 import { AppState } from "./types/AppState";
 // Components
-import { ArtistContainer } from "./components/Artist";
+import { ArtistContainer } from "./components/ArtistContainer";
 import { ArtistList } from "./components/ArtistList";
 import { SearchForm } from "./components/SearchForm";
 

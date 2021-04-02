@@ -1,12 +1,12 @@
 import { Artist } from "../types/Artist";
 
 type Props = {
-  artist: Artist;
+  artist: Artist | null;
   onClose: () => void;
 };
 
 export function ArtistContainer({ artist, onClose }: Props) {
-  if (!artist) return null;
+  if (!artist) return <>No artist</>;
 
   function onClearArtist() {
     onClose();
@@ -21,7 +21,7 @@ export function ArtistContainer({ artist, onClose }: Props) {
         </button>
       </div>
 
-      <ul className="list-group">
+      <ul className="list-group" data-testid="artist-albums">
         {artist.albums && artist.albums.length > 0 ? (
           artist.albums.map((album: any) => {
             return (
