@@ -9,7 +9,6 @@ export function ArtistContainer({ artist, onClose }: Props) {
   if (!artist) return null;
 
   function onClearArtist() {
-    // setState({ artist: null });
     onClose();
   }
 

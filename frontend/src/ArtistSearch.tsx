@@ -4,18 +4,13 @@ import { FormEvent, useReducer, useRef } from "react";
 import { getFromAPI } from "./helpers/getFromAPI";
 // Types
 import { Artist } from "./types/Artist";
+import { InitialState } from "./types/InitialState";
 // Components
 import { ArtistContainer } from "./components/Artist";
+import { ArtistList } from "./components/ArtistList";
 
 const DOMAIN = "http://localhost:3000";
 const api = getFromAPI(DOMAIN);
-
-type InitialState = {
-  searchResult: Artist[] | null;
-  artist: Artist | null;
-  loading: boolean;
-  error: null;
-};
 
 export function ArtistSearch() {
   const inputEl = useRef<HTMLInputElement>(null);
@@ -37,11 +32,14 @@ export function ArtistSearch() {
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    setState(initialState);
+    setState({ ...initialState, loading: true });
 
     // Encode search term
     const searchTerm = encodeURIComponent(inputEl.current?.value || "");
-    if (!searchTerm) return;
+    if (!searchTerm) {
+      setState({ ...initialState, loading: false });
+      return;
+    }
 
     const searchResult = await api(`/artists/search/${searchTerm}`);
 
@@ -56,7 +54,7 @@ export function ArtistSearch() {
     }
   }
 
-  async function onSelectArtist(id: string) {
+  async function onSelectArtist(id: number) {
     setState({ artist: null, loading: true });
     const artist: Artist = await api(`/artist/${id}`);
     setState({ artist, loading: false });
@@ -77,7 +75,12 @@ export function ArtistSearch() {
             defaultValue=""
           />
 
-          <button id="btnSearch" type="submit" className="btn btn-primary">
+          <button
+            id="btnSearch"
+            type="submit"
+            className="btn btn-primary"
+            disabled={!!state.loading}
+          >
             Search
           </button>
         </div>
@@ -87,30 +90,18 @@ export function ArtistSearch() {
         <div className="bg-danger text-white p-3">{state.error.message}</div>
       ) : null}
 
+      {state.loading ? "Loading..." : null}
+
       {state.artist ? (
         <ArtistContainer
           artist={state.artist}
           onClose={() => setState({ artist: null })}
         />
       ) : (
-        <ul className="list-group">
-          {state.searchResult && <h5>Search results</h5>}
-          {state.searchResult && state.searchResult.length > 0 ? (
-            state.searchResult.map((artist: any) => {
-              return (
-                <button
-                  key={artist.id}
-                  className="list-group-item list-group-item-action"
-                  onClick={() => onSelectArtist(artist.id)}
-                >
-                  {artist.name}
-                </button>
-              );
-            })
-          ) : (
-            <div>No results found.</div>
-          )}
-        </ul>
+        <ArtistList
+          artists={state.searchResult}
+          onSelectArtist={onSelectArtist}
+        />
       )}
     </div>
   );
