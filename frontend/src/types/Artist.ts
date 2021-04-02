@@ -1,7 +1,7 @@
 import { Album } from "./Album";
 
 export type Artist = {
-  id: string;
+  id: number;
   name: string;
   albums: Album[];
 };

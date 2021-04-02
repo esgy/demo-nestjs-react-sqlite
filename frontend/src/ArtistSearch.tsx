@@ -4,21 +4,30 @@ import { FormEvent, useReducer, useRef } from "react";
 import { getFromAPI } from "./helpers/getFromAPI";
 // Types
 import { Artist } from "./types/Artist";
+// Components
+import { ArtistContainer } from "./components/Artist";
 
 const DOMAIN = "http://localhost:3000";
 const api = getFromAPI(DOMAIN);
 
+type InitialState = {
+  searchResult: Artist[] | null;
+  artist: Artist | null;
+  loading: boolean;
+  error: null;
+};
+
 export function ArtistSearch() {
   const inputEl = useRef<HTMLInputElement>(null);
 
-  const initialState = {
-    searchResult: null as Artist[] | null,
-    artist: null as Artist | null,
+  const initialState: InitialState = {
+    searchResult: null,
+    artist: null,
     loading: false,
     error: null,
   };
   const [state, setState] = useReducer(
-    (s: any, a: any) => ({ ...s, ...a }),
+    (state: InitialState, action: any) => ({ ...state, ...action }),
     initialState
   );
 
@@ -41,10 +50,6 @@ export function ArtistSearch() {
     setState({ artist: null, loading: true });
     const artist: Artist = await api(`/artist/${id}`);
     setState({ artist, loading: false });
-  }
-
-  function onClearArtist() {
-    setState({ artist: null });
   }
 
   return (
@@ -86,30 +91,10 @@ export function ArtistSearch() {
         </ul>
       )}
 
-      {state.artist ? (
-        <>
-          <div className="d-flex mt-4 mb-2 justify-content-between align-items-end">
-            <h4>{state.artist.name} Albums</h4>
-            <button onClick={onClearArtist} className="btn btn-danger">
-              Close
-            </button>
-          </div>
-
-          <ul className="list-group">
-            {state.artist.albums && state.artist.albums.length > 0 ? (
-              state.artist.albums.map((album: any) => {
-                return (
-                  <li key={album.id} className="list-group-item">
-                    {album.title}
-                  </li>
-                );
-              })
-            ) : (
-              <div className="text-danger">No albums found.</div>
-            )}
-          </ul>
-        </>
-      ) : null}
+      <ArtistContainer
+        artist={state.artist}
+        onClose={() => setState({ artist: null })}
+      />
     </div>
   );
 }
