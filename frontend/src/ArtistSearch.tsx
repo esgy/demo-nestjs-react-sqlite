@@ -62,7 +62,7 @@ export function ArtistSearch() {
             defaultValue=""
           />
 
-          <button type="submit" className="btn btn-primary">
+          <button id="btnSearch" type="submit" className="btn btn-primary">
             Search
           </button>
         </div>
