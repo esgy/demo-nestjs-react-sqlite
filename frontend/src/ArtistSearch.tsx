@@ -13,14 +13,11 @@ import { SearchForm } from "./components/SearchForm";
 // Build Root API URL
 const api = getFromAPI(process.env.REACT_APP_API_URL || "");
 
-export function ArtistSearch() {
-  // Setup initial state
-  const initialState: AppState = {
-    searchResult: null,
-    artist: null,
-    loading: false,
-    error: null,
-  };
+type Props = {
+  state: AppState;
+};
+
+export function ArtistSearch({ state: initialState }: Props) {
   const [state, setState] = useReducer(
     (state: AppState, action: any) => ({ ...state, ...action }),
     initialState

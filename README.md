@@ -26,3 +26,4 @@ For E2E tests:
 - [ ] Frontend: Add React Router to separate views & user Route params to fetch search term
 - [ ] Frontend: Artist Details in Modal
 - [ ] API&Frontend: Add CRUD functionality: Add/Edit/Delete Artist/Album
+- [ ] Add Fulltext search

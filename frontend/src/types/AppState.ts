@@ -4,5 +4,5 @@ export type AppState = {
   searchResult: Artist[] | null;
   artist: Artist | null;
   loading: boolean;
-  error: null;
+  error: Error | null;
 };
