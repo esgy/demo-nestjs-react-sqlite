@@ -1,6 +1,6 @@
 import { Artist } from "./Artist";
 
-export type InitialState = {
+export type AppState = {
   searchResult: Artist[] | null;
   artist: Artist | null;
   loading: boolean;

@@ -1,46 +1,36 @@
-import { FormEvent, useReducer, useRef } from "react";
+import { useReducer } from "react";
 
 // Helpers
 import { getFromAPI } from "./helpers/getFromAPI";
 // Types
 import { Artist } from "./types/Artist";
-import { InitialState } from "./types/InitialState";
+import { AppState } from "./types/AppState";
 // Components
 import { ArtistContainer } from "./components/Artist";
 import { ArtistList } from "./components/ArtistList";
+import { SearchForm } from "./components/SearchForm";
 
-const DOMAIN = "http://localhost:3000";
-const api = getFromAPI(DOMAIN);
+const api = getFromAPI(process.env.REACT_APP_API_URL || "");
 
 export function ArtistSearch() {
-  const inputEl = useRef<HTMLInputElement>(null);
-
-  const initialState: InitialState = {
+  const initialState: AppState = {
     searchResult: null,
     artist: null,
     loading: false,
     error: null,
   };
   const [state, setState] = useReducer(
-    (state: InitialState, action: any) => ({ ...state, ...action }),
+    (state: AppState, action: any) => ({ ...state, ...action }),
     initialState
   );
 
-  /**
-   * Submit Form
-   */
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
+  async function onSubmit(searchTerm: string) {
     setState({ ...initialState, loading: true });
 
-    // Encode search term
-    const searchTerm = encodeURIComponent(inputEl.current?.value || "");
     if (!searchTerm) {
       setState({ ...initialState, loading: false });
       return;
     }
-
     const searchResult = await api(`/artists/search/${searchTerm}`);
 
     if (searchResult.error) {
@@ -60,31 +50,11 @@ export function ArtistSearch() {
     setState({ artist, loading: false });
   }
 
+  console.log("state.searchResult", state.searchResult);
+
   return (
     <div className="container mt-3">
-      <form onSubmit={onSubmit} className="mb-3">
-        <h4 className="text-muted">Search for your favourite artist</h4>
-        <div className="d-flex">
-          <input
-            id="searchTerm"
-            name="searchTerm"
-            ref={inputEl}
-            className="form-control me-2"
-            type="text"
-            placeholder="metallica"
-            defaultValue=""
-          />
-
-          <button
-            id="btnSearch"
-            type="submit"
-            className="btn btn-primary"
-            disabled={!!state.loading}
-          >
-            Search
-          </button>
-        </div>
-      </form>
+      <SearchForm state={state} onSubmit={onSubmit} />
 
       {state.error ? (
         <div className="bg-danger text-white p-3">{state.error.message}</div>

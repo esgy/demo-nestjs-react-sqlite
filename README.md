@@ -4,6 +4,8 @@
 
 `npm i`
 
+Duplicate or rename .env.example to .env.local in the `frontend` package
+
 ## Test
 
 For Unit tests:

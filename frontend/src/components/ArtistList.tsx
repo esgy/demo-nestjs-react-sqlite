@@ -1,7 +1,7 @@
 import { Artist } from "../types/Artist";
 
 type Props = {
-  artists: Artist[];
+  artists: Artist[] | null;
   onSelectArtist: (id: number) => void;
 };
 
