@@ -10,9 +10,11 @@ import { ArtistContainer } from "./components/Artist";
 import { ArtistList } from "./components/ArtistList";
 import { SearchForm } from "./components/SearchForm";
 
+// Build Root API URL
 const api = getFromAPI(process.env.REACT_APP_API_URL || "");
 
 export function ArtistSearch() {
+  // Setup initial state
   const initialState: AppState = {
     searchResult: null,
     artist: null,
@@ -24,6 +26,7 @@ export function ArtistSearch() {
     initialState
   );
 
+  // Handle Form Submit
   async function onSubmit(searchTerm: string) {
     setState({ ...initialState, loading: true });
 
@@ -44,13 +47,12 @@ export function ArtistSearch() {
     }
   }
 
+  // Handle Select Artist
   async function onSelectArtist(id: number) {
     setState({ artist: null, loading: true });
     const artist: Artist = await api(`/artist/${id}`);
     setState({ artist, loading: false });
   }
-
-  console.log("state.searchResult", state.searchResult);
 
   return (
     <div className="container mt-3">

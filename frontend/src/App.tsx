@@ -1,11 +1,7 @@
 import { ArtistSearch } from "./ArtistSearch";
 
 function App() {
-  return (
-    <section>
-      <ArtistSearch />
-    </section>
-  );
+  return <ArtistSearch />;
 }
 
 export default App;

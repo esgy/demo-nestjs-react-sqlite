@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { Album } from "./album.entity";
+import { Album } from "../album/album.entity";
 
 @Entity({ name: "artists" })
 export class Artist {
