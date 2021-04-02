@@ -11,4 +11,11 @@ export class ArtistController {
   async getArtist(@Param() { id }: GetArtistDto): Promise<Artist | undefined> {
     return this.artistService.getById(id);
   }
+
+  @Get("artists/search/:term")
+  async searchArtistByName(
+    @Param() { term }: { term: string }
+  ): Promise<Artist[] | undefined> {
+    return this.artistService.searchArtistByName(term);
+  }
 }
