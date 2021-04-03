@@ -33,7 +33,7 @@ export function ArtistSearch({ state: initialState }: Props) {
     }
     const searchResult = await api(`/artists/search/${searchTerm}`);
 
-    if (searchResult.error) {
+    if (searchResult && searchResult.error) {
       setState({
         searchResult: null,
         loading: false,
