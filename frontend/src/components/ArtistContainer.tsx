@@ -1,19 +1,27 @@
-import { Artist } from "../types/Artist";
+import { useArtistDetails } from "../components/hooks/useArtistDetails";
 
 type Props = {
-  artist: Artist | null;
+  artistId: number;
   onClose: () => void;
 };
 
-export function ArtistContainer({ artist, onClose }: Props) {
-  if (!artist) return <>No artist</>;
+export function ArtistContainer({ artistId, onClose }: Props) {
+  const { artist, loading, error } = useArtistDetails(artistId);
+
+  if (!artist) return null;
 
   function onClearArtist() {
     onClose();
   }
 
   return (
-    <div className="col-12 col-md-6 mx-auto">
+    <>
+      {error ? (
+        <div className="bg-danger text-white p-3">{error.message}</div>
+      ) : null}
+
+      {loading ? "Loading..." : null}
+
       <div className="d-flex mt-4 mb-2 justify-content-between align-items-end">
         <h4>{artist.name} Albums</h4>
         <button onClick={onClearArtist} className="btn btn-danger">
@@ -21,19 +29,19 @@ export function ArtistContainer({ artist, onClose }: Props) {
         </button>
       </div>
 
-      <ul className="list-group" data-testid="artist-albums">
-        {artist.albums && artist.albums.length > 0 ? (
-          artist.albums.map((album: any) => {
+      {artist.albums && artist.albums.length > 0 ? (
+        <ul className="list-group" data-testid="artist-albums">
+          {artist.albums.map((album: any) => {
             return (
               <li key={album.id} className="list-group-item">
                 {album.title}
               </li>
             );
-          })
-        ) : (
-          <div className="text-danger">No albums found.</div>
-        )}
-      </ul>
-    </div>
+          })}
+        </ul>
+      ) : (
+        <div className="text-danger">No albums found.</div>
+      )}
+    </>
   );
 }

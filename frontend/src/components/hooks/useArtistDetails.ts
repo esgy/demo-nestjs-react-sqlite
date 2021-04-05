@@ -4,30 +4,30 @@ import { useStateReducer } from "../../helpers/useStateReducer";
 import { Artist } from "../../types/Artist";
 
 type State = {
-  artists: Artist[] | null;
+  artist: Artist | null;
   loading: boolean;
   error: Error | null;
 };
 
-export function useArtistsList(searchTerm: string): State {
+export function useArtistDetails(id?: number): State {
   const [state, setState] = useStateReducer({ loading: false, error: null });
   useEffect(() => {
-    (async function getArtistsList() {
-      if (!searchTerm.trim()) return;
+    (async function getArtistDetails() {
+      if (!id) return;
 
-      const artists = await api(`/artists/search/${searchTerm}`);
+      const artist = await api(`/artist/${id}`);
 
-      if (artists && artists.error) {
+      if (artist && artist.error) {
         setState({
-          artists: null,
+          artist: null,
           loading: false,
-          error: artists,
+          error: artist,
         });
       } else {
-        setState({ artists, loading: false, error: null });
+        setState({ artist, loading: false, error: null });
       }
     })();
-  }, [searchTerm, setState]);
+  }, [id, setState]);
 
   return { ...state };
 }

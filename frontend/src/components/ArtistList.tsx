@@ -12,7 +12,7 @@ export function ArtistList({ artists, onSelectArtist }: Props) {
   }
 
   return (
-    <ul className="list-group col-12 col-md-6 mx-auto">
+    <ul className="list-group">
       {artists.length > 0 ? (
         <>
           <h5>Search results</h5>

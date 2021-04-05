@@ -1,6 +1,3 @@
-// Types
-import { Artist } from "./types/Artist";
-
 // Helpers
 import { getFromAPI } from "./helpers/getFromAPI";
 
@@ -18,7 +15,10 @@ export const api = getFromAPI(process.env.REACT_APP_API_URL || "");
 
 export function ArtistSearch() {
   // local component state
-  const [state, setState] = useStateReducer({ searchTerm: "" });
+  const [state, setState] = useStateReducer({
+    searchTerm: "",
+    artistId: null,
+  });
   // Artists list
   const { artists, loading, error } = useArtistsList(state.searchTerm);
 
@@ -30,29 +30,29 @@ export function ArtistSearch() {
 
   // Handle select artist
   async function onSelectArtist(id: number) {
-    setState({ artist: null, loading: true });
-    const artist: Artist = await api(`/artist/${id}`);
-    setState({ artist, loading: false });
+    setState({ artistId: id });
   }
 
   return (
-    <div className="container mt-3">
-      <SearchForm onSubmit={onSubmit} />
+    <div className="row mt-3">
+      <div className="col-12 col-md-6 mx-auto">
+        <SearchForm onSubmit={onSubmit} />
 
-      {error ? (
-        <div className="bg-danger text-white p-3">{error.message}</div>
-      ) : null}
+        {error ? (
+          <div className="bg-danger text-white p-3">{error.message}</div>
+        ) : null}
 
-      {loading ? "Loading..." : null}
+        {loading ? "Loading..." : null}
 
-      {state.artist ? (
-        <ArtistContainer
-          artist={state.artist}
-          onClose={() => setState({ artist: null })}
-        />
-      ) : (
-        <ArtistList artists={artists} onSelectArtist={onSelectArtist} />
-      )}
+        {state.artistId ? (
+          <ArtistContainer
+            artistId={state.artistId}
+            onClose={() => setState({ artistId: null })}
+          />
+        ) : (
+          <ArtistList artists={artists} onSelectArtist={onSelectArtist} />
+        )}
+      </div>
     </div>
   );
 }

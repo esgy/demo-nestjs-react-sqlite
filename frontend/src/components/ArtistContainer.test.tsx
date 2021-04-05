@@ -1,37 +1,51 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import { Artist } from "../types/Artist";
+
 import { ArtistContainer } from "./ArtistContainer";
+const artist: Artist = {
+  id: 1,
+  name: "Metallica",
+  albums: [
+    {
+      id: 1,
+      title: "Metallica 1",
+    },
+    {
+      id: 2,
+      title: "Metallica 2",
+    },
+  ],
+};
+
+beforeEach(() => {
+  jest.spyOn(global, "fetch").mockResolvedValue({ json: () => artist } as any);
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
 test("render one artist, with no albums", async () => {
-  const artist: Artist = {
-    id: 1,
-    name: "Metallica",
-    albums: [],
-  };
-
-  render(<ArtistContainer artist={artist} onClose={() => {}} />);
+  render(<ArtistContainer artistId={1} onClose={() => {}} />);
   const heading = await screen.findByRole("heading");
   expect(heading).toBeInTheDocument();
 });
 
-test("render no artist found", async () => {
-  const artist: Artist | null = null;
+test("render null when no artist selected", async () => {
+  jest.spyOn(global, "fetch").mockResolvedValue({ json: () => null } as any);
 
-  render(<ArtistContainer artist={artist} onClose={() => {}} />);
-  const heading = await screen.findByText("No artist");
-  expect(heading).toBeInTheDocument();
+  render(<ArtistContainer artistId={2} onClose={() => {}} />);
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("artist-albums")).not.toBeInTheDocument();
+  });
 });
 
 test("trigger on close", async () => {
-  const artist: Artist = {
-    id: 1,
-    name: "Metallica",
-    albums: [],
-  };
   const onClose = jest.fn();
 
-  render(<ArtistContainer artist={artist} onClose={onClose} />);
+  render(<ArtistContainer artistId={1} onClose={onClose} />);
 
   const form = await screen.findByRole("button");
   fireEvent.click(form);
@@ -39,27 +53,11 @@ test("trigger on close", async () => {
 });
 
 test("render one artist, with multiple albums", async () => {
-  const artist: Artist = {
-    id: 1,
-    name: "Metallica",
-    albums: [
-      {
-        id: 1,
-        title: "Metallica 1",
-      },
-      {
-        id: 2,
-        title: "Metallica 2",
-      },
-    ],
-  };
+  render(<ArtistContainer artistId={1} onClose={() => {}} />);
 
-  render(<ArtistContainer artist={artist} onClose={() => {}} />);
   const heading = await screen.findByRole("heading");
   expect(heading).toBeInTheDocument();
-
   const listGroup = await screen.findByTestId("artist-albums");
   // console.log("listGroup", listGroup);
-
   expect(listGroup).toBeInTheDocument();
 });

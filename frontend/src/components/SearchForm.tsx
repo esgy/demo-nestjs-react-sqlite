@@ -14,11 +14,7 @@ export function SearchForm({ onSubmit }: Props) {
   }
 
   return (
-    <form
-      onSubmit={onFormSubmit}
-      className="mb-3 col-12 col-md-6 mx-auto"
-      data-testid="form"
-    >
+    <form onSubmit={onFormSubmit} className="mb-3" data-testid="form">
       <label htmlFor="searchTerm" className="text-muted">
         Search artist
       </label>
