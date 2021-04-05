@@ -23,13 +23,12 @@ export function ArtistSearch() {
   const { artists, loading, error } = useArtistsList(state.searchTerm);
 
   // Handle Form Submit
-  async function onSubmit(searchTerm: string) {
-    if (!searchTerm) return;
+  function onSubmit(searchTerm: string) {
     setState({ searchTerm });
   }
 
   // Handle select artist
-  async function onSelectArtist(id: number) {
+  function onSelectArtist(id: number) {
     setState({ artistId: id });
   }
 

@@ -1,7 +1,7 @@
 import { useArtistDetails } from "../components/hooks/useArtistDetails";
 
 type Props = {
-  artistId: number;
+  artistId: number | null;
   onClose: () => void;
 };
 
