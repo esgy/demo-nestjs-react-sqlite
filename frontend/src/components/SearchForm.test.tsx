@@ -1,22 +1,15 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { AppState } from "../types/AppState";
 
 // import { Artist } from "../types/Artist";
 import { SearchForm } from "./SearchForm";
 
 test("SearchForm", () => {
-  const initialState: AppState = {
-    searchResult: null,
-    artist: null,
-    loading: false,
-    error: null,
-  };
   const onSubmit = jest.fn();
 
-  render(<SearchForm state={initialState} onSubmit={onSubmit} />);
+  render(<SearchForm onSubmit={onSubmit} />);
 
   // heading
-  const heading = screen.getByRole("heading");
+  const heading = screen.getByLabelText(/Search artist/i);
   expect(heading).toBeInTheDocument();
 
   // textbox

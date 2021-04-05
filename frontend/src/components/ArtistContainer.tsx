@@ -13,7 +13,7 @@ export function ArtistContainer({ artist, onClose }: Props) {
   }
 
   return (
-    <>
+    <div className="col-12 col-md-6 mx-auto">
       <div className="d-flex mt-4 mb-2 justify-content-between align-items-end">
         <h4>{artist.name} Albums</h4>
         <button onClick={onClearArtist} className="btn btn-danger">
@@ -34,6 +34,6 @@ export function ArtistContainer({ artist, onClose }: Props) {
           <div className="text-danger">No albums found.</div>
         )}
       </ul>
-    </>
+    </div>
   );
 }

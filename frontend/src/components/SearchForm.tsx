@@ -1,24 +1,27 @@
-import { FormEvent, useRef } from "react";
-import { AppState } from "../types/AppState";
+import { SyntheticEvent, useRef } from "react";
 
 type Props = {
-  state: AppState;
   onSubmit: (searchTerm: string) => void;
 };
 
-export function SearchForm({ state, onSubmit }: Props) {
+export function SearchForm({ onSubmit }: Props) {
   const inputEl = useRef<HTMLInputElement>(null);
 
-  function onFormSubmit(e: FormEvent<HTMLFormElement>) {
+  function onFormSubmit(e: SyntheticEvent) {
     e.preventDefault();
-    // Encode search term
     const searchTerm = encodeURIComponent(inputEl.current?.value || "");
     onSubmit(searchTerm);
   }
 
   return (
-    <form onSubmit={onFormSubmit} className="mb-3" data-testid="form">
-      <h4 className="text-muted">Search for your favourite artist</h4>
+    <form
+      onSubmit={onFormSubmit}
+      className="mb-3 col-12 col-md-6 mx-auto"
+      data-testid="form"
+    >
+      <label htmlFor="searchTerm" className="text-muted">
+        Search artist
+      </label>
       <div className="d-flex">
         <input
           id="searchTerm"
@@ -30,12 +33,7 @@ export function SearchForm({ state, onSubmit }: Props) {
           defaultValue=""
         />
 
-        <button
-          id="btnSearch"
-          type="submit"
-          className="btn btn-primary"
-          disabled={!!state.loading}
-        >
+        <button id="btnSearch" type="submit" className="btn btn-primary">
           Search
         </button>
       </div>
