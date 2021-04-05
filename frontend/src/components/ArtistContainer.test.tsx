@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { Artist } from "../types/Artist";
 
 import { ArtistContainer } from "./ArtistContainer";
+
 const artist: Artist = {
   id: 1,
   name: "Metallica",

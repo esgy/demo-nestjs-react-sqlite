@@ -10,7 +10,8 @@
     "typecheck:frontend": "npm --prefix frontend run typecheck",
     "typecheck": "npm run typecheck:api && npm run typecheck:frontend",
     "check-project": "npm run format:check && npm run typecheck && npm test && npm --prefix api run lint",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "cypress:ci": "cypress run"
   },
   "devDependencies": {
     "concurrently": "6.0.0",
