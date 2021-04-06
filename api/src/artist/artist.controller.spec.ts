@@ -8,6 +8,7 @@ describe("Artist Controller", () => {
   let controller: ArtistController;
   const artistService: Partial<jest.Mocked<ArtistService>> = {
     getById: jest.fn(),
+    searchArtistByName: jest.fn(),
   };
 
   afterEach(() => jest.resetAllMocks());
@@ -37,5 +38,25 @@ describe("Artist Controller", () => {
       name: "Foo",
       albums: [],
     });
+  });
+
+  it("searchArtistByName resolves with Artists list", async () => {
+    artistService.searchArtistByName?.mockResolvedValue([
+      {
+        id: 42,
+        name: "Foo",
+        albums: [],
+      },
+    ]);
+
+    await expect(
+      controller.searchArtistByName({ term: "Foo" })
+    ).resolves.toEqual([
+      {
+        id: 42,
+        name: "Foo",
+        albums: [],
+      },
+    ]);
   });
 });
