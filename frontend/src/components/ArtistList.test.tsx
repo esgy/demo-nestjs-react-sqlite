@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { Artist } from "../types/Artist";
 import { ArtistList } from "./ArtistList";
@@ -40,7 +41,7 @@ test("ArtistList click list item", async () => {
   expect(artistsButton).toContainHTML("Metallica");
 
   const form = await screen.findByRole("button");
-  fireEvent.click(form);
+  userEvent.click(form);
   expect(onSelectArtist).toHaveBeenCalled();
 });
 

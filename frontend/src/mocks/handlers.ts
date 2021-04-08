@@ -26,9 +26,8 @@ export const handlers = [
     );
   }),
 
-  // GET /artists/search/${searchTerm}
+  // GET /artists/search/:term
   rest.get("http://localhost:3000/search/:term", (req, res, ctx) => {
-    console.log("SEARCH>>>>", req.params);
     return res(
       ctx.json([
         {

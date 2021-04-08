@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
 import { Artist } from "../types/Artist";
 
@@ -23,7 +24,7 @@ test("trigger on close", async () => {
   render(<ArtistContainer artistId={1} onClose={onClose} />);
 
   const form = await screen.findByRole("button");
-  fireEvent.click(form);
+  userEvent.click(form);
   expect(onClose).toHaveBeenCalled();
 });
 
