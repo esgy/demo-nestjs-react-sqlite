@@ -4,20 +4,6 @@ import { Artist } from "../types/Artist";
 
 import { ArtistContainer } from "./ArtistContainer";
 
-const artist: Artist = {
-  id: 1,
-  name: "Metallica",
-  albums: [],
-};
-
-beforeEach(() => {
-  jest.spyOn(global, "fetch").mockResolvedValue({ json: () => artist } as any);
-});
-
-afterEach(() => {
-  jest.restoreAllMocks();
-});
-
 test("render one artist, with no albums", async () => {
   render(<ArtistContainer artistId={1} onClose={() => {}} />);
   const heading = await screen.findByRole("heading");
@@ -28,7 +14,7 @@ test("render null when no artist selected", async () => {
   render(<ArtistContainer artistId={null} onClose={() => {}} />);
 
   const albumEl = screen.queryByText(/Albums/);
-  expect(albumEl).toBeNull();
+  expect(albumEl).not.toBeInTheDocument();
 });
 
 test("trigger on close", async () => {
