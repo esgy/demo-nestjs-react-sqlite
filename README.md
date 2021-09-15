@@ -24,10 +24,10 @@ Run `npm run cypress` in separate terminal window
 ## TODO
 
 - [x] API: Separate Album/Artist into modules
-- [ ] FE: Add React Router to separate views & user Route params to fetch search term
+- [x] FE: Add React Router to separate views & user Route params to fetch search term
+- [ ] API: refactor REST endpoint into GraphQL API
 - [ ] FE: Update Cypress tests to add React Testing Library module to fetch page elements
 - [ ] FE: Move Artist Details in a Modal
 - [ ] API & FE: Add CRUD functionality: Add/Edit/Delete Artist/Album
 - [ ] API: Update tests handling the additional CRUD functionality
-- [ ] API: refactor REST endpoint into GraphQL API
 - [ ] Add Docker-Compose for API & FE
