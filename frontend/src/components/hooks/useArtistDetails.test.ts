@@ -11,7 +11,7 @@ describe("useArtistDetails Hook", () => {
       albums: [],
     };
 
-    const { result, waitForNextUpdate } = renderHook(() => useArtistDetails(1));
+    const { result, waitForNextUpdate } = renderHook(() => useArtistDetails("1"));
 
     await waitForNextUpdate();
 
@@ -27,9 +27,7 @@ describe("useArtistDetails Hook", () => {
       error: "Not Found",
     };
 
-    const { result, waitForNextUpdate } = renderHook(() =>
-      useArtistDetails(9999)
-    );
+    const { result, waitForNextUpdate } = renderHook(() => useArtistDetails("9999"));
 
     await waitForNextUpdate();
 

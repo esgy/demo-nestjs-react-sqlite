@@ -1,3 +1,4 @@
+import { Routes, Route, MemoryRouter } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -6,27 +7,40 @@ import { Artist } from "../types/Artist";
 import { ArtistContainer } from "./ArtistContainer";
 
 test("render one artist, with no albums", async () => {
-  render(<ArtistContainer artistId={1} onClose={() => {}} />);
+  const artistNoAlbums: Partial<Artist> = {
+    id: 1,
+    name: "Metallica",
+  };
+
+  jest.spyOn(global, "fetch").mockResolvedValue({ json: () => artistNoAlbums } as any);
+
+  render(
+    <MemoryRouter initialEntries={["/artist/1"]}>
+      <Routes>
+        <Route path="/artist/:id" element={<ArtistContainer />} />
+      </Routes>
+    </MemoryRouter>
+  );
   const heading = await screen.findByRole("heading");
   expect(heading).toBeInTheDocument();
 });
 
 test("render null when no artist selected", async () => {
-  render(<ArtistContainer artistId={null} onClose={() => {}} />);
+  render(<ArtistContainer />, { wrapper: MemoryRouter });
 
   const albumEl = screen.queryByText(/Albums/);
   expect(albumEl).not.toBeInTheDocument();
 });
 
-test("trigger on close", async () => {
-  const onClose = jest.fn();
+// test("trigger on close", async () => {
+//   // const onClose = jest.fn();
 
-  render(<ArtistContainer artistId={1} onClose={onClose} />);
+//   render(<ArtistContainer />, { wrapper: MemoryRouter });
 
-  const form = await screen.findByRole("button");
-  userEvent.click(form);
-  expect(onClose).toHaveBeenCalled();
-});
+//   const link = await screen.findByRole("link");
+//   userEvent.click(link);
+//   // expect(onClose).toHaveBeenCalled();
+// });
 
 test("render one artist, with multiple albums", async () => {
   const artistWithAlbums: Artist = {
@@ -44,11 +58,15 @@ test("render one artist, with multiple albums", async () => {
     ],
   };
 
-  jest
-    .spyOn(global, "fetch")
-    .mockResolvedValue({ json: () => artistWithAlbums } as any);
+  jest.spyOn(global, "fetch").mockResolvedValue({ json: () => artistWithAlbums } as any);
 
-  render(<ArtistContainer artistId={1} onClose={() => {}} />);
+  render(
+    <MemoryRouter initialEntries={["/artist/1"]}>
+      <Routes>
+        <Route path="/artist/:id" element={<ArtistContainer />} />
+      </Routes>
+    </MemoryRouter>
+  );
 
   const heading = await screen.findByRole("heading");
   expect(heading).toBeInTheDocument();

@@ -11,6 +11,7 @@ type State = {
 
 export function useArtistsList(searchTerm: string): State {
   const [state, setState] = useStateReducer({ loading: false, error: null });
+
   useEffect(() => {
     (async function getArtistsList() {
       if (!searchTerm.trim()) return;

@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
+
 import { Artist } from "../types/Artist";
 
 type Props = {
   artists: Artist[] | null;
-  onSelectArtist: (id: number) => void;
 };
 
-export function ArtistList({ artists, onSelectArtist }: Props) {
+export function ArtistList({ artists }: Props) {
   // default state is null, but we can also get 0 items
   if (artists?.length === undefined) {
     return null;
@@ -18,13 +19,13 @@ export function ArtistList({ artists, onSelectArtist }: Props) {
           <h5>Search results</h5>
           {artists.map((artist: any) => {
             return (
-              <button
+              <Link
                 key={artist.id}
                 className="list-group-item list-group-item-action"
-                onClick={() => onSelectArtist(artist.id)}
+                to={`/artist/${artist.id}`}
               >
                 {artist.name}
-              </button>
+              </Link>
             );
           })}
         </>

@@ -15,7 +15,7 @@ export function SearchForm({ onSubmit }: Props) {
 
   return (
     <form onSubmit={onFormSubmit} className="mb-3" data-testid="form">
-      <label htmlFor="searchTerm" className="text-muted">
+      <label htmlFor="searchTerm" className="text-muted fw-bold">
         Search artist
       </label>
       <div className="d-flex">
@@ -25,7 +25,7 @@ export function SearchForm({ onSubmit }: Props) {
           ref={inputEl}
           className="form-control me-2"
           type="text"
-          placeholder="metallica"
+          placeholder="ex: Metallica"
           defaultValue=""
         />
 

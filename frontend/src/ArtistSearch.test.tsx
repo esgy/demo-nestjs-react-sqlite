@@ -4,6 +4,6 @@ import { ArtistSearch } from "./ArtistSearch";
 
 test("Artists Search initial render", () => {
   render(<ArtistSearch />);
-  const artistSearch = screen.getByPlaceholderText("metallica");
+  const artistSearch = screen.getByPlaceholderText("ex: Metallica");
   expect(artistSearch).toBeInTheDocument();
 });

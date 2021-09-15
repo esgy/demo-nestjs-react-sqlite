@@ -1,3 +1,5 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 // Helpers
 import { getFromAPI } from "./helpers/getFromAPI";
 
@@ -27,31 +29,31 @@ export function ArtistSearch() {
     setState({ searchTerm });
   }
 
-  // Handle select artist
-  function onSelectArtist(id: number) {
-    setState({ artistId: id });
-  }
-
   return (
-    <div className="row mt-3">
-      <div className="col-12 col-md-6 mx-auto">
-        <SearchForm onSubmit={onSubmit} />
+    <BrowserRouter>
+      <div className="row mt-3">
+        <div className="col-12 col-md-6 mx-auto">
+          <SearchForm onSubmit={onSubmit} />
 
-        {error ? (
-          <div className="bg-danger text-white p-3">{error.message}</div>
-        ) : null}
+          {error ? <div className="bg-danger text-white p-3">{error.message}</div> : null}
 
-        {loading ? "Loading..." : null}
+          {loading ? "Loading..." : null}
 
-        {state.artistId ? (
-          <ArtistContainer
-            artistId={state.artistId}
-            onClose={() => setState({ artistId: null })}
-          />
-        ) : (
-          <ArtistList artists={artists} onSelectArtist={onSelectArtist} />
-        )}
+          <Routes>
+            <Route path="/" element={<ArtistList artists={artists} />} />
+            <Route path="/artist/:id" element={<ArtistContainer />} />
+          </Routes>
+
+          {/* {state.artistId ? (
+            <ArtistContainer
+              artistId={state.artistId}
+              onClose={() => setState({ artistId: null })}
+            />
+          ) : (
+            <ArtistList artists={artists} onSelectArtist={onSelectArtist} />
+          )} */}
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }

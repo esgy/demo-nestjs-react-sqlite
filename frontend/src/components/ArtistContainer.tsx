@@ -1,32 +1,24 @@
+import { Link, useParams } from "react-router-dom";
+
 import { useArtistDetails } from "../components/hooks/useArtistDetails";
 
-type Props = {
-  artistId: number | null;
-  onClose: () => void;
-};
-
-export function ArtistContainer({ artistId, onClose }: Props) {
-  const { artist, loading, error } = useArtistDetails(artistId);
+export function ArtistContainer() {
+  let { id } = useParams();
+  const { artist, loading, error } = useArtistDetails(id);
 
   if (!artist) return null;
 
-  function onClearArtist() {
-    onClose();
-  }
-
   return (
     <>
-      {error ? (
-        <div className="bg-danger text-white p-3">{error.message}</div>
-      ) : null}
+      {error ? <div className="bg-danger text-white p-3">{error.message}</div> : null}
 
       {loading ? "Loading..." : null}
 
       <div className="d-flex mt-4 mb-2 justify-content-between align-items-end">
         <h4>{artist.name} Albums</h4>
-        <button onClick={onClearArtist} className="btn btn-danger">
+        <Link to={"/"} className="btn btn-danger">
           Close
-        </button>
+        </Link>
       </div>
 
       {artist.albums && artist.albums.length > 0 ? (

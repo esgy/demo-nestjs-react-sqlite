@@ -9,7 +9,7 @@ type State = {
   error: Error | null;
 };
 
-export function useArtistDetails(id: number | null): State {
+export function useArtistDetails(id?: string): State {
   const [state, setState] = useStateReducer({ loading: false, error: null });
   useEffect(() => {
     (async function getArtistDetails() {
