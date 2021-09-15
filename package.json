@@ -14,8 +14,8 @@
     "cypress:ci": "cypress run"
   },
   "devDependencies": {
-    "concurrently": "6.0.0",
-    "cypress": "6.8.0",
-    "prettier": "2.2.1"
+    "concurrently": "6.2.1",
+    "cypress": "8.4.0",
+    "prettier": "2.4.0"
   }
 }
