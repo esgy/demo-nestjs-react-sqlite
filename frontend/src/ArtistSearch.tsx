@@ -24,7 +24,7 @@ export function ArtistSearch() {
   // Artists list
   const { artists, loading, error } = useArtistsList(state.searchTerm);
 
-  // Handle Form Submit
+  // Handle Search Form Submit
   function onSubmit(searchTerm: string) {
     setState({ searchTerm });
   }
@@ -43,15 +43,6 @@ export function ArtistSearch() {
             <Route path="/" element={<ArtistList artists={artists} />} />
             <Route path="/artist/:id" element={<ArtistContainer />} />
           </Routes>
-
-          {/* {state.artistId ? (
-            <ArtistContainer
-              artistId={state.artistId}
-              onClose={() => setState({ artistId: null })}
-            />
-          ) : (
-            <ArtistList artists={artists} onSelectArtist={onSelectArtist} />
-          )} */}
         </div>
       </div>
     </BrowserRouter>

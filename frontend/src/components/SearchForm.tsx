@@ -1,7 +1,7 @@
 import { SyntheticEvent, useRef } from "react";
 
 type Props = {
-  onSubmit: (searchTerm: string) => void;
+  onSubmit: (searchText: string) => void;
 };
 
 export function SearchForm({ onSubmit }: Props) {
@@ -9,19 +9,19 @@ export function SearchForm({ onSubmit }: Props) {
 
   function onFormSubmit(e: SyntheticEvent) {
     e.preventDefault();
-    const searchTerm = encodeURIComponent(inputEl.current?.value || "");
-    onSubmit(searchTerm);
+    const searchText = encodeURIComponent(inputEl.current?.value || "");
+    onSubmit(searchText);
   }
 
   return (
     <form onSubmit={onFormSubmit} className="mb-3" data-testid="form">
-      <label htmlFor="searchTerm" className="text-muted fw-bold">
-        Search artist
+      <label htmlFor="searchText" className="text-muted fw-bold mb-2">
+        Search for artist
       </label>
       <div className="d-flex">
         <input
-          id="searchTerm"
-          name="searchTerm"
+          id="searchText"
+          name="searchText"
           ref={inputEl}
           className="form-control me-2"
           type="text"

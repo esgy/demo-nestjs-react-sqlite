@@ -6,7 +6,7 @@ describe("ArtistSearch", () => {
   it("Searches for artist", () => {
     const inputTxt = "met";
 
-    cy.get("#searchTerm").focus().type(inputTxt).should("have.value", inputTxt);
+    cy.get("#searchText").focus().type(inputTxt).should("have.value", inputTxt);
 
     // .type('{enter}')
     cy.get("#btnSearch").click();
@@ -29,7 +29,7 @@ describe("ArtistSearch", () => {
   it("Searches for artist with / inside the name", () => {
     const inputTxt = "ac/dc";
 
-    cy.get("#searchTerm").focus().type(inputTxt).should("have.value", inputTxt);
+    cy.get("#searchText").focus().type(inputTxt).should("have.value", inputTxt);
 
     // .type('{enter}')
     cy.get("#btnSearch").click();
