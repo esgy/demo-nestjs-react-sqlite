@@ -4,11 +4,9 @@ Simple Demo app with local state.
 
 ## Setup
 
-1. `npm i` in root folder
+1. `npm i` in root folder (it will run `postinstall` for both client & api)
 
-2. Duplicate or rename `.env.example` to `.env.local` in the `frontend` package
-
-3. `npm start`
+2. `npm start` in root folder
 
 ## Test
 
